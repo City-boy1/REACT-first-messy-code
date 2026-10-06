@@ -1,40 +1,33 @@
-import { Link } from "react-router-dom"
-import add from "../assets/add.svg"
+import { Link } from "react-router-dom";   
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext"; 
 
-export default function Navbar({ colorMode, toggleMode }) {
-
-    return (
-        <nav className="navbar">
-
-            <div className="navbar-left">
-                <Link
-                    className="logo"
-                    to="/"
-                >
-                    PRODUCT STORE 🛒
-                </Link>
-            </div>
-
-
-            <div className="navbar-right">
-
-                <Link to="/create">
-                    <button className="nav-button">
-                        <img src={add} alt="Add" />
-                    </button>
-                </Link>
-
-
-                <button
-                    className="nav-button"
-                    onClick={toggleMode}
-                    aria-label="Toggle color mode"
-                >
-                    {colorMode === "light" ? "🌙" : "☀"}
-                </button>
-
-            </div>
-
+export default function Navbar(){
+    const { user, logout } = useContext(AuthContext);
+    return(
+        <header style={{
+            padding:"1rem 1.5rem",
+            marginBottom:"1rem",
+            borderBottom:"1px solid #e5e7eb",
+            display:"flex",
+            justifyContent:"space-between",
+        }}>
+        <nav style={{
+            display:"flex",
+            gap:"1rem",
+        }}>
+            <Link to="/" style={{textDecoration:"none"}}>Home</Link>
+            <Link to="/profile" style={{textDecoration:"none"}}>Profile</Link>
         </nav>
+        {!user.isAuth? (<Link to="/login" style={{textDecoration:"none"}}               >Login</Link>) :(
+            <button onClick={logout} style={{
+                padding:"0.5rem 1rem",
+                backgroundColor:"#49484a",
+                color:"white",
+                border:"none",
+                borderRadius:"0.5rem",
+            }}>Logout</button>
+        )}
+        </header>
     )
 }
